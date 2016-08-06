@@ -5,7 +5,7 @@
 # http://www.edrdg.org/wiki/index.php/Tanaka_Corpus
 
 #
-# Make vocabulary
+# Make vocabularies.
 #
 mkdir -p sample_data/vocab
 ./make_vocabulary.py \
@@ -18,7 +18,7 @@ mkdir -p sample_data/vocab
   --size 7000
 
 #
-# Convert words into word IDs
+# Convert words into word IDs.
 #
 mkdir -p sample_data/wid
 for corpus in train dev test; do
@@ -31,8 +31,8 @@ for corpus in train dev test; do
 done
 
 #
-# Split training corpus
-# This is an optional process, but required when using large corpus.
+# Split training corpus.
+# This is an optional process, but required when you use a large corpus.
 #
 for lang in en ja; do
   split \
@@ -42,13 +42,14 @@ for lang in en ja; do
 done
 
 #
-# Start training
-# When you use train_attention.py, you should specify also --atten-size opation
-# --train-src and --train-trg oaptions can be specified using glob wildcard.
-# `sample_data/result/lo` contains training status (e.g. dev/test accumulated
-# loss). You can monitor them using `tail -f` command.
-# Training scripts do not save model parameters, but output translation results
-# of dev/test corpus in every --eval-interval steps.
+# Start training.
+# When you use train_attention.py, you should specify also --atten-size opation.
+# --train-src and --train-trg oaptions can be specified using a glob wildcard.
+# `sample_data/result/log` contains training statuses (e.g. dev/test accumulated
+# loss values). You can monitor them using `tail -f` command.
+# Training scripts do not save any model parameters, but output translation
+# results of dev/test corpus at sample_data/result in every --eval-interval
+# steps.
 #
 ./train_encdec.py \
   --train-src 'sample_data/wid/train.en.???' \
@@ -75,9 +76,9 @@ done
   --gpu 0
 
 #
-# Restore actual words from word IDs and calculate BLEU scores
-# When you use train_encdec.py, test BLEU becomes about 9~12.
-# When you use train_attention.py, test BLEU becomes about 14~17.
+# Restore actual words from word IDs and calculate BLEU scores.
+# When you use train_encdec.py, the test BLEU becomes about 9~12.
+# When you use train_attention.py, the test BLEU becomes about 14~17.
 #
 mkdir -p sample_data/eval
 for corpus in dev test; do

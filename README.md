@@ -8,7 +8,7 @@ This repository includes below:
 
 Usage
 -----
-See sample.sh
+See sample.sh.
 
 Author
 ------
