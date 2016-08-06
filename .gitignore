@@ -1,0 +1,7 @@
+*~
+*.pyc
+__pycache__
+sample_data/eval
+sample_data/result
+sample_data/vocab
+sample_data/wid
