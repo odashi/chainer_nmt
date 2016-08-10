@@ -110,7 +110,7 @@ def add_simple_encdec_args(p):
       help='RNN hidden layer size')
 
 
-def add_attention_encdec_args(p):
+def add_atten_encdec_args(p):
   g = p.add_argument_group('model', 'options to specify the translation model')
   g.add_argument(
       '--src-vocab-size',

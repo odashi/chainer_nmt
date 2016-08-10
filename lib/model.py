@@ -1,7 +1,6 @@
 import chainer
 import chainer.functions as F
 import chainer.links as L
-import chainer.serializers
 import numpy
 
 
@@ -93,29 +92,6 @@ class SimpleEncoderDecoder(chainer.Chain):
         break
       y = z
     return z_list
-
-  def save(self, prefix):
-    with open(prefix + '.spec', 'w') as fp:
-      print(self.src_vocab_size, file=fp)
-      print(self.trg_vocab_size, file=fp)
-      print(self.embed_size, file=fp)
-      print(self.hidden_size, file=fp)
-    chainer.serializers.save_npz(prefix + '.params', self)
-
-  @staticmethod
-  def load(prefix):
-    with open(prefix + '.spec') as fp:
-      src_vocab_size = int(next(fp))
-      trg_vocab_size = int(next(fp))
-      embed_size = int(next(fp))
-      hidden_size = int(next(fp))
-    self = SimpleEncoderDecoder(
-        src_vocab_size,
-        trg_vocab_size,
-        embed_size,
-        hidden_size)
-    chainer.serializers.load_npz(prefix + '.params', self)
-    return self
 
 
 class AttentionEncoderDecoder(chainer.Chain):
@@ -242,30 +218,4 @@ class AttentionEncoderDecoder(chainer.Chain):
         break
       y = z
     return z_list
-
-  def save(self, prefix):
-    with open(prefix + '.spec', 'w') as fp:
-      print(self.src_vocab_size, file=fp)
-      print(self.trg_vocab_size, file=fp)
-      print(self.embed_size, file=fp)
-      print(self.hidden_size, file=fp)
-      print(self.atten_size, file=fp)
-    chainer.serializers.save_npz(prefix + '.params', self)
-
-  @staticmethod
-  def load(prefix):
-    with open(prefix + '.spec') as fp:
-      src_vocab_size = int(next(fp))
-      trg_vocab_size = int(next(fp))
-      embed_size = int(next(fp))
-      hidden_size = int(next(fp))
-      atten_size = int(next(fp))
-    self = AttentionEncoderDecoder(
-        src_vocab_size,
-        trg_vocab_size,
-        embed_size,
-        hidden_size,
-        atten_size)
-    chainer.serializers.load_npz(prefix + '.params', self)
-    return self
 
