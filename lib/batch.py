@@ -56,7 +56,6 @@ def _split_samples(samples, batch_size):
 def generate_train_batch(
     src_filepattern,
     trg_filepattern,
-    pad_id,
     bos_id,
     eos_id,
     batch_size,
@@ -88,13 +87,12 @@ def generate_train_batch(
       logger.info('* #filtered samples = %d', len(samples))
       logger.info('* #batches = %d', len(batches))
       for batch in batches:
-        yield _make_batch(batch, pad_id)
+        yield _make_batch(batch, eos_id)
 
 
 def generate_test_batch(
     src_filepath,
     trg_filepath,
-    pad_id,
     bos_id,
     eos_id,
     batch_size):
@@ -108,7 +106,7 @@ def generate_test_batch(
   logger.info('* #samples = %d', len(samples))
   logger.info('* #batches = %d', len(batches))
   for batch in batches:
-    yield _make_batch(batch, pad_id)
+    yield _make_batch(batch, eos_id)
 
 
 def batch_to_samples(batch, eos_id):

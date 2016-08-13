@@ -4,7 +4,7 @@ import sys
 from argparse import ArgumentParser
 from collections import defaultdict
 
-SPECIAL_TOKENS = ['<unk>', '<pad>', '<s>', '</s>']
+SPECIAL_TOKENS = ['<unk>', '<s>', '</s>']
 
 def parse_args():
   p = ArgumentParser('Constructs vocabulary file.')

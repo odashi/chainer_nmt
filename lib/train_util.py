@@ -6,9 +6,8 @@ from . import batch
 from . import model
 
 
-PAD_ID = 1
-BOS_ID = 2
-EOS_ID = 3
+BOS_ID = 1
+EOS_ID = 2
 
 
 def init_simple_encdec_model(args):
@@ -107,7 +106,7 @@ def prepare_data(args):
 
   train_batches = batch.generate_train_batch(
       args.train_src, args.train_trg,
-      PAD_ID, BOS_ID, EOS_ID,
+      BOS_ID, EOS_ID,
       args.train_batch_size,
       args.max_sample_length,
       args.max_length_ratio)
@@ -116,14 +115,14 @@ def prepare_data(args):
   
   dev_batches = list(batch.generate_test_batch(
       args.dev_src, args.dev_trg,
-      PAD_ID, BOS_ID, EOS_ID,
+      BOS_ID, EOS_ID,
       args.test_batch_size))
 
   logger.info('Loading test corpus:')
   
   test_batches = list(batch.generate_test_batch(
       args.test_src, args.test_trg,
-      PAD_ID, BOS_ID, EOS_ID,
+      BOS_ID, EOS_ID,
       args.test_batch_size))
 
   return train_batches, dev_batches, test_batches
