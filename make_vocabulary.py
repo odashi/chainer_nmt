@@ -4,7 +4,6 @@ import sys
 from argparse import ArgumentParser
 from collections import defaultdict
 
-SPECIAL_TOKENS = ['<unk>', '<s>', '</s>']
 
 def parse_args():
   p = ArgumentParser('Constructs vocabulary file.')
@@ -18,20 +17,29 @@ def parse_args():
       '--size',
       type=int, metavar='N', required=True, help='vicabulary size')
   args = p.parse_args()
-  assert args.size > len(SPECIAL_TOKENS)
+  assert args.size > 3
   return args
+
 
 def main():
   args = parse_args()
+
   freq = defaultdict(int)
+  num_lines = 0
   with open(args.input) as fp:
     for line in fp:
+      num_lines += 1
       for word in line.split():
         freq[word] += 1
+
   freq_sorted = sorted(freq.items(), key=lambda x: x[1], reverse=True)
-  freq_sorted = [(w, 0) for w in SPECIAL_TOKENS] + freq_sorted
+  num_unk = sum(x[1] for x in freq_sorted[args.size - 3:])
+
   with open(args.output, 'w') as fp:
-    for i, (key, val) in zip(range(args.size), freq_sorted):
+    print('0\t<unk>\t%d' % num_unk, file=fp)
+    print('1\t<s>\t%d' % num_lines, file=fp)
+    print('2\t</s>\t%d' % num_lines, file=fp)
+    for i, (key, val) in zip(range(3, args.size), freq_sorted):
       print('%d\t%s\t%d' % (i, key, val), file=fp)
 
 if __name__ == '__main__':
