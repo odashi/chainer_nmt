@@ -3,6 +3,7 @@ import logging
 import math
 import os
 import random
+from collections import defaultdict
 
 
 def _read_single_samples(filepath, bos_id, eos_id):
@@ -46,6 +47,17 @@ def _filter_samples(samples, max_sample_length, max_length_ratio):
   return samples
 
 
+def _arrange_samples(samples):
+  buckets = defaultdict(lambda: [])
+  for src, trg in samples:
+    buckets[len(src)].append((src, trg))
+  for key in sorted(buckets):
+    samples_in_bucket = buckets[key]
+    random.shuffle(samples_in_bucket)
+    for sample in samples_in_bucket:
+      yield sample
+
+
 def _split_samples(samples, batch_size):
   batches = []
   for i in range(0, len(samples), batch_size):
@@ -78,7 +90,8 @@ def generate_train_batch(
       samples = _read_parallel_samples(
           src_filepaths[shard_id], trg_filepaths[shard_id], bos_id, eos_id)
       samples = _filter_samples(samples, max_sample_length, max_length_ratio)
-      samples = sorted(samples, key=lambda x: len(x[0]))
+      samples = _arrange_samples(samples)
+      samples = list(samples)
       batches = _split_samples(samples, batch_size)
       random.shuffle(batches)
       logger.info('Loaded new shard:')
