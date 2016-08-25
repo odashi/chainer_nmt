@@ -27,6 +27,8 @@ def main():
       level=logging.DEBUG)
   logger = logging.getLogger(__name__)
   
+  train_util.print_args(args)
+
   mdl = train_util.init_atten_encdec_model(args)
   opt = train_util.init_optimizer(args, mdl)
   train_util.prepare_gpu(args, mdl)

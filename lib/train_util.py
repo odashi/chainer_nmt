@@ -10,6 +10,14 @@ BOS_ID = 1
 EOS_ID = 2
 
 
+def print_args(args):
+  logger = logging.getLogger(__name__)
+
+  logger.info('Arguments:')
+  for key, val in sorted(vars(args).items(), key=lambda x: x[0]):
+    logger.info('* %s = %s' % (key, val))
+
+
 def init_simple_encdec_model(args):
   logger = logging.getLogger(__name__)
 
